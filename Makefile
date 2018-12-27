@@ -1,4 +1,5 @@
 NAME=nicolasstampf/alpine-vsftpd-anon
+DOCKERNAME=anon-ftpd
 VOLUME=images
 
 all:	build
@@ -9,10 +10,10 @@ build:	Dockerfile vsftpd.conf
 	touch .build
 
 test:	.build
-	docker run -d -p 20:20 -p 21:21 -p 10000-10010:10000-10010 --volume=$(VOLUME):/data/images --rm $(NAME) 
+	docker run -d -p 20:20 -p 21:21 -p 10000-10010:10000-10010 --volume=$(VOLUME):/data/images --rm --name=$(DOCKERNAME) $(NAME) 
 
 run:	.build
-	docker run -d -p 20:20 -p 21:21 -p 10000-10010:10000-10010 --volume=$(VOLUME):/data/images --restart=always $(NAME)
+	docker run -d -p 20:20 -p 21:21 -p 10000-10010:10000-10010 --volume=$(VOLUME):/data/images --restart=always --name=$(DOCKERNAME) $(NAME)
 
 push:
 	docker login
